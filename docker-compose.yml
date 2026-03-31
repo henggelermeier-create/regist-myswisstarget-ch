@@ -1,0 +1,20 @@
+services:
+  registrierung:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_APP_NAME: mySwissTarget Registrierung
+      NEXT_PUBLIC_MAIN_APP_URL: https://app.myswisstarget.ch
+      NEXT_PUBLIC_REGISTRATION_URL: https://registrierung.myswisstarget.ch
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
